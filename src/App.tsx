@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Upload, Clock, BarChart3, Target, PlayCircle, FileText, Brain, ArrowLeft, X } from 'lucide-react';
 
-const SATTutor = () => {
+const App = () => {
   const [currentView, setCurrentView] = useState('home');
   const [user, setUser] = useState({ name: 'Student', email: 'default@sat.com' });
-  const [selectedSection, setSelectedSection] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSection, setSelectedSection] = useState(null as any);
+  const [selectedCategory, setSelectedCategory] = useState(null as any);
   const [sessionConfig, setSessionConfig] = useState({
     difficulty: 'medium',
     confidence: 'moderate',
@@ -21,14 +21,15 @@ const SATTutor = () => {
     sessionType: null,
     timerEnabled: false,
     timeRemaining: 0,
-    isTimerRunning: false
+    isTimerRunning: false,
+    totalQuestions: 0
   });
   const [progress, setProgress] = useState({
     totalQuestions: 0,
     correctAnswers: 0,
-    byTopic: {}
+    byTopic: {} as any
   });
-  const [uploadedTests, setUploadedTests] = useState([]);
+  const [uploadedTests, setUploadedTests] = useState([] as any[]);
 
   useEffect(() => {
     loadProgress();
@@ -874,7 +875,7 @@ const SATTutor = () => {
               <h3 className="text-2xl font-black mb-6 uppercase tracking-tight" style={{ color: '#324dc7' }}>By Topic</h3>
               {Object.keys(progress.byTopic).length > 0 ? (
                 <div className="space-y-4">
-                  {Object.entries(progress.byTopic).map(([topic, data]) => {
+                  {Object.entries(progress.byTopic).map(([topic, data]: [string, any]) => {
                     const topicAccuracy = Math.round((data.correct / data.total) * 100);
                     return (
                       <div key={topic} className="p-6 border-4 border-white bg-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]">
@@ -1031,4 +1032,4 @@ const SATTutor = () => {
   );
 };
 
-export default SATTutor;
+export default App;
