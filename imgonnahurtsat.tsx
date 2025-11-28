@@ -907,6 +907,118 @@ const SATTutor = () => {
     );
   };
 
+  const AITeacherView = () => {
+    const [question, setQuestion] = useState('');
+    const [messages, setMessages] = useState([
+      {
+        role: 'assistant',
+        content: 'Hi! I\'m your AI SAT tutor. Ask me anything about SAT strategies, specific questions, or concepts you\'re struggling with!'
+      }
+    ]);
+
+    const handleAskQuestion = () => {
+      if (!question.trim()) return;
+
+      setMessages(prev => [
+        ...prev,
+        { role: 'user', content: question },
+        {
+          role: 'assistant',
+          content: 'This is a demo placeholder. In a full implementation, this would connect to an AI service to provide personalized help with your SAT questions and strategies.'
+        }
+      ]);
+      setQuestion('');
+    };
+
+    return (
+      <div className="min-h-screen p-8" style={{ backgroundColor: '#324dc7' }}>
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => setCurrentView('home')}
+            className="mb-8 text-white hover:opacity-80 flex items-center gap-2 font-black uppercase tracking-wider text-sm transition-opacity"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </button>
+
+          <div className="text-center mb-8">
+            <h1 className="text-5xl font-black text-white mb-4 tracking-tight uppercase">
+              AI Teacher
+            </h1>
+            <div className="w-24 h-2 mx-auto mb-6" style={{ backgroundColor: '#fedb02' }}></div>
+            <p className="text-white text-lg font-bold uppercase tracking-wider">Get Instant Help</p>
+          </div>
+
+          <div className="bg-white border-4 border-white p-8 shadow-[12px_12px_0px_0px_rgba(255,255,255,0.2)] mb-6">
+            <div className="space-y-4 mb-6 max-h-96 overflow-y-auto">
+              {messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`p-4 border-4 ${
+                    msg.role === 'assistant'
+                      ? 'bg-white'
+                      : 'bg-white'
+                  }`}
+                  style={{
+                    borderColor: msg.role === 'assistant' ? '#fedb02' : '#324dc7'
+                  }}
+                >
+                  <div className="font-black text-sm uppercase tracking-wider mb-2" style={{ color: '#324dc7' }}>
+                    {msg.role === 'assistant' ? '🤖 AI Tutor' : '👤 You'}
+                  </div>
+                  <p className="text-gray-800 font-medium">{msg.content}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              <textarea
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="Ask a question about SAT strategies, specific problems, or concepts..."
+                className="w-full p-4 border-4 font-medium resize-none focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(254,219,2,0.3)] transition-all"
+                style={{ borderColor: '#324dc7', minHeight: '120px' }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleAskQuestion();
+                  }
+                }}
+              />
+              <button
+                onClick={handleAskQuestion}
+                className="w-full py-4 font-black text-lg uppercase tracking-wider border-4 hover:shadow-[6px_6px_0px_0px_rgba(254,219,2,0.3)] transition-all"
+                style={{ backgroundColor: '#fedb02', color: '#324dc7', borderColor: '#fedb02' }}
+              >
+                Ask Question
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white border-4 border-white p-6 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
+            <h4 className="font-black uppercase tracking-wider mb-4 text-lg" style={{ color: '#324dc7' }}>
+              💡 Example Questions
+            </h4>
+            <ul className="space-y-2">
+              <li className="text-gray-700 font-medium flex items-start gap-3">
+                <span className="font-black" style={{ color: '#fedb02' }}>•</span>
+                <span>What's the best strategy for tackling reading comprehension questions?</span>
+              </li>
+              <li className="text-gray-700 font-medium flex items-start gap-3">
+                <span className="font-black" style={{ color: '#fedb02' }}>•</span>
+                <span>How do I approach quadratic equations on the SAT?</span>
+              </li>
+              <li className="text-gray-700 font-medium flex items-start gap-3">
+                <span className="font-black" style={{ color: '#fedb02' }}>•</span>
+                <span>Can you explain the difference between mean, median, and mode?</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       {currentView === 'home' && <HomeView />}
@@ -914,6 +1026,7 @@ const SATTutor = () => {
       {currentView === 'config' && <ConfigView />}
       {currentView === 'session' && <SessionView />}
       {currentView === 'progress' && <ProgressView />}
+      {currentView === 'ai-teacher' && <AITeacherView />}
     </>
   );
 };
